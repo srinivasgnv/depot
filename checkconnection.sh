@@ -2,12 +2,27 @@
 ## script to monitor network and trace the last reachable hop in case of disconnection
 ## Author : Srinivas Gannavarapu
 ## Note: using ping to identify network disconnections might not be a reliable. But this script will help
-##      in basic monitoring
+##      in basic monitoring. User can select how many number of hops to trace in case of a disconnection.
 ##
-## Usage: checkconnection.sh <ip/web address> > logfle
+## Usage: checkconnection.sh <ip/web address> [hops] > logfle
 ## use control + c to stop the script ; sometimes you might have to use kill to stop the script
 ##
 ##
+
+
+## check for usage 
+if [ -n "$1" ]
+then
+	echo Invalid usage
+	echo "Usage: checkconnection.sh <ip or website> [hops]"
+fi
+## set number of hops to trace in case of a disconnection 
+## default is 10
+hops=10
+if [ -n "$2" ]
+then
+	hops=$2
+fi
 
 echo Monitoring network between you and $1 starts at `date`
 status=1
@@ -30,8 +45,8 @@ do
                     echo Disconnected `date`
                     if [ -f $tracepathAvailable ]
                     then
-                        echo Tracing for 10 hops 
-                        tracepath -n -l 29 -m 10 $1
+                        echo Tracing for $hops hops 
+                        tracepath -n -l 29 -m $hops $1
                     fi
                 fi
 		status=0
