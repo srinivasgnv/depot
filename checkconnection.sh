@@ -11,10 +11,10 @@
 
 
 ## check for usage 
-if [ -n "$1" ]
+if [ $# -lt 1 ]
 then
 	echo Invalid usage
-	echo "Usage: checkconnection.sh <ip or website> [hops]"
+	echo "Usage: checkconnection.sh <ip> [hops]"
 fi
 ## set number of hops to trace in case of a disconnection 
 ## default is 10
